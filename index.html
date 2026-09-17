@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUREX Watches | Official Store</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #000000;
+            --white: #ffffff;
+            --border-color: #eaeaea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Body Background White */
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* --- 1. TOP ANNOUNCEMENT BAR (Seamless Infinite Marquee) --- */
+        .top-bar {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 10px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #333;
+            overflow: hidden;
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .marquee-container {
+            display: flex;
+            width: max-content;
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Pause animation on hover (optional) */
+        .marquee-container:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .marquee-content span {
+            font-weight: 500;
+            letter-spacing: 1px;
+            padding: 0 20px;
+        }
+
+        .marquee-content i {
+            color: var(--gold);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Moves exactly half the width to create an endless loop */
+        }
+
+        /* --- 2. MAIN HEADER (Black) --- */
+        header {
+            background-color: var(--black);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Logo */
+        .logo img {
+            height: 50px; 
+            object-fit: contain;
+        }
+
+        /* Desktop Navigation (White Text) */
+        .desktop-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .desktop-nav a {
+            color: var(--white); 
+            text-decoration: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .desktop-nav a:hover {
+            color: var(--gold); 
+        }
+
+        .desktop-nav a i {
+            font-size: 10px;
+        }
+
+        .bold-link {
+            font-weight: 700 !important;
+        }
+
+        /* Icons Container (White Icons) */
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icons .icon-wrapper {
+            position: relative;
+            color: var(--white); 
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .header-icons .icon-wrapper:hover {
+            color: var(--gold); 
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: var(--gold);
+            color: var(--black);
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--white);
+        }
+
+        /* --- 3. HERO SLIDER --- */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 85vh;
+            overflow: hidden;
+            background-color: var(--black); /* Fallback color */
+        }
+
+        .slider-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Removed the darkness filter so watches look natural and bright */
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        /* Slider Controls */
+        .slider-controls {
+            position: absolute;
+            bottom: 5%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 20;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .dot.active {
+            background-color: transparent;
+            border-color: var(--gold);
+            transform: scale(1.3);
+        }
+
+        /* Slider Arrows */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            z-index: 20;
+            transition: 0.3s;
+        }
+
+        .arrow:hover { color: var(--gold); }
+        .arrow-left { left: 2%; }
+        .arrow-right { right: 2%; }
+
+       /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 900px) {
+            .desktop-nav { display: none; }
+            .mobile-menu-btn { display: block; }
+            
+            header {
+                justify-content: space-between;
+                padding: 15px 20px;
+            }
+            .header-left { flex: 1; }
+            .logo { flex: 1; text-align: center; }
+            .header-right { flex: 1; justify-content: flex-end; }
+            
+            /* 16:9 Aspect Ratio for Mobile */
+            .slider-container { 
+                height: auto; 
+                aspect-ratio: 16 / 9; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. TOP ANNOUNCEMENT BAR (Seamless Moving Marquee) -->
+    <div class="top-bar">
+        <div class="marquee-container">
+            <!-- Content 1 -->
+            <div class="marquee-content">
+                <span><i class="fas fa-phone-alt"></i> Toll Free: 1800 228 668</span>
+                <span>•</span>
+                <span><i class="fas fa-shield-alt"></i> 24 MONTHS WARRANTY</span>
+                <span>•</span>
+                <span><i class="fas fa-shipping-fast"></i> FREE SHIPPING NATIONWIDE</span>
+                <span>•</span>
+                <span><i class="fas fa-gem"></i> PREMIUM LUXURY WATCHES</span>
+                <span>•</span>
+            </div>
+            <!-- Content 2 (Exact Duplicate for Gapless Loop) -->
+            <div class="marquee-content">
+                <span><i class="fas fa-phone-alt"></i> Toll Free: 1800 228 668</span>
+                <span>•</span>
+                <span><i class="fas fa-shield-alt"></i> 24 MONTHS WARRANTY</span>
+                <span>•</span>
+                <span><i class="fas fa-shipping-fast"></i> FREE SHIPPING NATIONWIDE</span>
+                <span>•</span>
+                <span><i class="fas fa-gem"></i> PREMIUM LUXURY WATCHES</span>
+                <span>•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN HEADER (Black) -->
+    <header>
+        <div class="header-left">
+            <i class="fas fa-bars mobile-menu-btn"></i>
+            <a href="#" class="logo">
+                <img src="media/logo.jpg" alt="Aurex Watches">
+            </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <a href="#">Collections <i class="fas fa-chevron-down"></i></a>
+            <a href="#">Information <i class="fas fa-chevron-down"></i></a>
+            <a href="#">Service <i class="fas fa-chevron-down"></i></a>
+            <a href="#" class="bold-link">Book an Appointment</a>
+        </nav>
+
+        <!-- Header Icons -->
+        <div class="header-right header-icons">
+            <div class="icon-wrapper"><i class="fas fa-search"></i></div>
+            <div class="icon-wrapper"><i class="far fa-user"></i></div>
+            <div class="icon-wrapper">
+                <i class="far fa-heart"></i>
+                <span class="badge">0</span>
+            </div>
+            <div class="icon-wrapper">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="badge">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. HERO SLIDER (Images Only) -->
+    <div class="slider-container">
+        
+        <i class="fas fa-chevron-left arrow arrow-left" onclick="prevSlide()"></i>
+        <i class="fas fa-chevron-right arrow arrow-right" onclick="nextSlide()"></i>
+
+        <div class="slider-wrapper" id="slider-wrapper">
+            <!-- Slide 1 -->
+            <div class="slide">
+                <img src="media/banner_1.jfif" alt="Black & Gold Sports Watch">
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="media/banner_2.jfif" alt="Minimalist Watch">
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="media/banner_3.jfif" alt="Classic Leather Watch">
+            </div>
+        </div>
+
+        <!-- Slider Dots -->
+        <div class="slider-controls" id="dots-container">
+            <div class="dot active" onclick="goToSlide(0)"></div>
+            <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="dot" onclick="goToSlide(2)"></div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR SLIDER -->
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const sliderWrapper = document.getElementById('slider-wrapper');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+        }
+
+        let sliderInterval = setInterval(nextSlide, 5000);
+
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', () => clearInterval(sliderInterval));
+        sliderContainer.addEventListener('mouseleave', () => {
+            sliderInterval = setInterval(nextSlide, 5000);
+        });
+    </script>
+
+</body>
+</html>
