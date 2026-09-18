@@ -299,7 +299,7 @@
         <div class="header-left">
             <i class="fas fa-bars mobile-menu-btn"></i>
             <a href="#" class="logo">
-                <img src="media/logo.webp" alt="Aurex Watches">
+                <img src="media/logo.webp" alt="Aurex Watches" fetchpriority="high">
             </a>
         </div>
 
@@ -335,17 +335,17 @@
         <div class="slider-wrapper" id="slider-wrapper">
             <!-- Slide 1 -->
             <div class="slide">
-                <img src="media/banner_1.webp" alt="Black & Gold Sports Watch">
+                <img src="media/banner_1.webp" alt="Black & Gold Sports Watch" fetchpriority="high">
             </div>
 
             <!-- Slide 2 -->
             <div class="slide">
-                <img src="media/banner_2.webp" alt="Minimalist Watch">
+                <img src="media/banner_2.webp" alt="Minimalist Watch" fetchpriority="high">
             </div>
 
             <!-- Slide 3 -->
             <div class="slide">
-                <img src="media/banner_3.webp" alt="Classic Leather Watch">
+                <img src="media/banner_3.webp" alt="Classic Leather Watch" fetchpriority="high">
             </div>
         </div>
 
@@ -394,6 +394,1081 @@
             sliderInterval = setInterval(nextSlide, 5000);
         });
     </script>
+    <!-- PART 2: MOST POPULAR 3D SLIDER START -->
+    <style>
+        /* Part 2 Specific CSS */
+        .most-popular-section {
+            background-color: var(--white);
+            text-align: center;
+            padding: 80px 5%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .most-popular-section h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        /* 3D Slider Container */
+        .slider-3d-container {
+            position: relative;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .slide-3d {
+            position: absolute;
+            width: 280px;
+            transition: all 0.6s ease-in-out;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Placeholder images ke background transparent hone chahiye (PNG) */
+        .slide-3d img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            /* Ek subtle shadow taake 3D effect aur acha lagay */
+            filter: drop-shadow(0px 15px 15px rgba(0,0,0,0.1));
+        }
+
+        /* Active (Center) Watch */
+        .slide-3d.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            z-index: 10;
+            filter: blur(0);
+        }
+
+        /* Previous (Left) Watch */
+        .slide-3d.prev {
+            opacity: 0.6;
+            transform: translateX(-70%) scale(0.75);
+            z-index: 5;
+            filter: blur(6px);
+        }
+
+        /* Next (Right) Watch */
+        .slide-3d.next {
+            opacity: 0.6;
+            transform: translateX(70%) scale(0.75);
+            z-index: 5;
+            filter: blur(6px);
+        }
+
+        /* Watch Information (Title, Price, Button) */
+        .watch-info-container {
+            margin-top: 20px;
+            min-height: 150px; /* Jumps roknay ke liye */
+        }
+
+        .watch-info-container h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 10px;
+            transition: opacity 0.3s;
+        }
+
+        .watch-info-container .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            /* Mustard Gold color used in reference images */
+            color: #C39953; 
+            margin-bottom: 25px;
+            transition: opacity 0.3s;
+        }
+
+        .buy-now-btn {
+            background-color: #C39953;
+            color: var(--black);
+            border: none;
+            padding: 14px 40px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .buy-now-btn:hover {
+            background-color: #a88142;
+            transform: translateY(-2px);
+        }
+
+        /* Circular Arrow Controls */
+        .slider-arrows {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .slider-arrows button {
+            background: transparent;
+            border: 2px solid #C39953;
+            color: #C39953;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slider-arrows button:hover {
+            background: #C39953;
+            color: var(--white);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #C39953;
+            color: var(--black);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            box-shadow: 2px 4px 15px rgba(0,0,0,0.25);
+            z-index: 2000;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .slider-3d-container { height: 350px; }
+            .slide-3d { width: 220px; }
+            .slide-3d.prev { transform: translateX(-50%) scale(0.7); }
+            .slide-3d.next { transform: translateX(50%) scale(0.7); }
+            .most-popular-section h2 { font-size: 2.2rem; }
+        }
+
+        /* Page load hone par Pop-up Animation */
+        @keyframes entranceZoom {
+            0% { opacity: 0; transform: translateY(40px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .most-popular-section {
+            background-color: var(--white);
+            text-align: center;
+            padding: 80px 5%;
+            overflow: hidden;
+            position: relative;
+            /* Animation apply ki gayi hai */
+            animation: entranceZoom 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+    </style>
+
+    <section class="most-popular-section">
+        <h2>Most Popular</h2>
+
+        <div class="slider-3d-container" id="3d-slider">
+            <!-- Data attributes mein Title aur Price update kar diye gaye hain -->
+            <div class="slide-3d" data-title="Phantom Skeleton Noir" data-price="Rs. 55,000">
+                <img src="media/product_1.webp" alt="Phantom Skeleton Noir" fetchpriority="high">
+            </div>
+            
+            <div class="slide-3d" data-title="JK Collection Diamond Gold" data-price="Rs. 180,000">
+                <img src="media/product_2.webp" alt="JK Collection Diamond Gold" fetchpriority="high">
+            </div>
+
+            <div class="slide-3d" data-title="Yacht-Master Stealth" data-price="Rs. 95,000" fetchpriority="high">
+                <img src="media/product_3.webp" alt="Yacht-Master Stealth">
+            </div>
+            
+            <div class="slide-3d" data-title="BS Matte Black Edition" data-price="Rs. 28,500" fetchpriority="high">
+                <img src="media/product_4.webp" alt="BS Matte Black Edition">
+            </div>
+        </div>
+
+        <!-- Dynamic Info Section -->
+        <div class="watch-info-container">
+            <h3 id="active-watch-title">Watch Title</h3>
+            <div class="price" id="active-watch-price">Rs. 0</div>
+            <button class="buy-now-btn">BUY NOW</button>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <div class="slider-arrows">
+            <button id="btn-prev-3d"><i class="fas fa-arrow-left"></i></button>
+            <button id="btn-next-3d"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </section>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/923000000000" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const slides3D = document.querySelectorAll('.slide-3d');
+        const titleEl = document.getElementById('active-watch-title');
+        const priceEl = document.getElementById('active-watch-price');
+        let currentSlide3D = 0;
+        const totalSlides3D = slides3D.length;
+        let sliderInterval3D;
+
+        // Transition ko wapas original smooth speed par set kiya
+        slides3D.forEach(slide => {
+             slide.style.transition = 'all 0.6s ease-in-out';
+        });
+
+        function update3DSlider() {
+            slides3D.forEach(slide => {
+                slide.classList.remove('active', 'prev', 'next');
+            });
+
+            const prevIndex = (currentSlide3D - 1 + totalSlides3D) % totalSlides3D;
+            const nextIndex = (currentSlide3D + 1) % totalSlides3D;
+
+            slides3D[currentSlide3D].classList.add('active');
+            slides3D[prevIndex].classList.add('prev');
+            slides3D[nextIndex].classList.add('next');
+
+            const activeSlide = slides3D[currentSlide3D];
+            
+            titleEl.style.opacity = 0;
+            priceEl.style.opacity = 0;
+            
+            setTimeout(() => {
+                titleEl.textContent = activeSlide.getAttribute('data-title');
+                priceEl.textContent = activeSlide.getAttribute('data-price');
+                titleEl.style.opacity = 1;
+                priceEl.style.opacity = 1;
+            }, 300); 
+        }
+
+        function goNext3D() {
+            currentSlide3D = (currentSlide3D + 1) % totalSlides3D;
+            update3DSlider();
+        }
+
+        // Har 3 second baad normal slide karega
+        function startAutoPlay3D() {
+            sliderInterval3D = setInterval(goNext3D, 3000); 
+        }
+
+        function resetAutoPlay3D() {
+            clearInterval(sliderInterval3D);
+            startAutoPlay3D();
+        }
+
+        // Arrow Buttons
+        document.getElementById('btn-next-3d').addEventListener('click', () => {
+            goNext3D();
+            resetAutoPlay3D();
+        });
+
+        document.getElementById('btn-prev-3d').addEventListener('click', () => {
+            currentSlide3D = (currentSlide3D - 1 + totalSlides3D) % totalSlides3D;
+            update3DSlider();
+            resetAutoPlay3D();
+        });
+
+        // Hover par rokna
+        const slider3DContainer = document.getElementById('3d-slider');
+        slider3DContainer.addEventListener('mouseenter', () => clearInterval(sliderInterval3D));
+        slider3DContainer.addEventListener('mouseleave', startAutoPlay3D);
+
+        // Jab page puri tarah load ho jaye tabhi slider shuru ho
+        window.addEventListener('load', () => {
+            update3DSlider();
+            startAutoPlay3D();
+        });
+    </script>
+    <!-- PART 2: MOST POPULAR 3D SLIDER END -->
+     <!-- PART 3: ALL PRODUCTS CATALOG START -->
+    <style>
+        /* Part 3 Specific CSS */
+        .products-catalog-section {
+            background-color: var(--white);
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .products-catalog-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* CSS Grid Layout for Products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* PC par 3 columns */
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Individual Product Card */
+        .product-card {
+            background-color: #fafafa;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+        }
+
+        /* Product Image Wrapper */
+        .product-image {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 Aspect ratio bananay ke liye */
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 6px;
+        }
+
+        .product-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08); /* Hover par thora zoom hoga */
+        }
+
+        /* Sale Badge */
+        .badge-sale {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 3px;
+            z-index: 2;
+        }
+
+        /* Product Info */
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 8px;
+            text-transform: capitalize;
+        }
+
+        .product-rating {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .product-rating span {
+            color: #888;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #C39953;
+            margin-bottom: 15px;
+        }
+
+        .product-price del {
+            color: #999;
+            font-size: 0.9rem;
+            margin-right: 8px;
+            font-weight: 400;
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: transparent;
+            color: var(--black);
+            border: 1px solid var(--black);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        /* View All Button */
+        .view-all-container {
+            margin-top: 50px;
+        }
+
+        .view-all-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background-color: #C39953;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .view-all-btn:hover {
+            background-color: #a88142;
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 900px) {
+            .products-grid {
+                /* Tablet par 2 columns */
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .products-catalog-section h2 {
+                font-size: 2rem;
+            }
+            .products-grid {
+                /* Mobile par bhi 2 columns as requested */
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px; /* Mobile par gap thora kam kiya hai taake fit aayein */
+            }
+            .product-card {
+                padding: 10px;
+            }
+            .product-title {
+                font-size: 0.95rem;
+            }
+            .product-price {
+                font-size: 1rem;
+            }
+            .add-to-cart-btn {
+                padding: 10px;
+                font-size: 11px;
+            }
+        }
+    </style>
+
+    <section class="products-catalog-section">
+        <h2>Our Collections</h2>
+
+        <div class="products-grid">
+            
+            <!-- Product 1 -->
+            <div class="product-card">
+                <span class="badge-sale">-15%</span>
+                <div class="product-image">
+                    <img src="media/product_5.webp" alt="Wokai Classic Gold">
+                </div>
+                <div class="product-title">Wokai Classic Gold & Black</div>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    <span>(24)</span>
+                </div>
+                <div class="product-price"><del>Rs. 18,000</del> Rs. 15,300</div>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="media/product_6.webp" alt="Curren GMT Chronometer">
+                </div>
+                <div class="product-title">Curren GMT Chronometer</div>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <span>(41)</span>
+                </div>
+                <div class="product-price">Rs. 12,500</div>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="media/product_7.webp" alt="Mstianq Emerald Silver">
+                </div>
+                <div class="product-title">Mstianq Emerald Silver</div>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    <span>(12)</span>
+                </div>
+                <div class="product-price">Rs. 22,000</div>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <span class="badge-sale">NEW</span>
+                <div class="product-image">
+                    <img src="media/product_8.webp" alt="Aurex Gold Skeleton">
+                </div>
+                <div class="product-title">Aurex Gold Skeleton</div>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <span>(89)</span>
+                </div>
+                <div class="product-price">Rs. 45,000</div>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="media/product_9.webp" alt="Kasrluo Silver Moonphase">
+                </div>
+                <div class="product-title">Kasrluo Silver Moonphase</div>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                    <span>(7)</span>
+                </div>
+                <div class="product-price">Rs. 38,000</div>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="media/product_10.webp" alt="Kasrluo Two-Tone Elite">
+                </div>
+                <div class="product-title">Kasrluo Two-Tone Elite</div>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <span>(115)</span>
+                </div>
+                <div class="product-price">Rs. 42,000</div>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+        </div>
+
+        <div class="view-all-container">
+            <a href="#" class="view-all-btn">VIEW ALL CATALOG</a>
+        </div>
+    </section>
+    <!-- PART 3: ALL PRODUCTS CATALOG END -->
+
+    <!-- PART 4: ABOUT US & BRAND VALUES START -->
+    <style>
+        /* Part 4 Specific CSS */
+        .about-section {
+            background-color: #fafafa;
+            padding: 80px 5%;
+            overflow: hidden;
+        }
+
+        .about-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 50px;
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Thora luxury touch dene ke liye background frame */
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--gold);
+            z-index: -1;
+            border-radius: 8px;
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .about-content h4 {
+            color: var(--gold);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .about-content p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .about-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background-color: var(--black);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            transition: all 0.3s;
+            border: 1px solid var(--black);
+        }
+
+        .about-btn:hover {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        /* --- Trust Badges (Why Choose Us) --- */
+        .trust-badges-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding-top: 50px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .trust-item {
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        .trust-item i {
+            font-size: 35px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .trust-item h5 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 10px;
+        }
+
+        .trust-item p {
+            color: #777;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 900px) {
+            .about-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .about-image::before {
+                display: none; /* Mobile par border hata diya taake neat lagay */
+            }
+            .trust-badges-container {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            .trust-item {
+                flex: 1 1 45%; /* Mobile par 2 icons per row */
+            }
+        }
+
+        @media (max-width: 500px) {
+            .about-content h2 {
+                font-size: 2rem;
+            }
+            .trust-item {
+                flex: 1 1 100%; /* Choti screen par 1 icon per row */
+            }
+        }
+    </style>
+
+    <section class="about-section">
+        <!-- About Us Content -->
+        <div class="about-container">
+            <div class="about-image">
+                <!-- Aap yahan kisi luxury lifestyle watch photo ka link dal sakte hain -->
+                <img src="media/about.webp" alt="Aurex Craftsmanship">
+            </div>
+            
+            <div class="about-content">
+                <h4>Our Story</h4>
+                <h2>Crafting Timeless Elegance Since 2026</h2>
+                <p>At AUREX Watches, we believe that a watch is more than just a tool to tell time; it is a statement of style, a symbol of success, and a legacy passed down through generations.</p>
+                <p>Every timepiece in our collection is meticulously crafted with precision, blending classic aesthetics with modern technology. We source the finest materials to ensure durability and a premium finish that stands the test of time.</p>
+                <a href="#" class="about-btn">READ MORE</a>
+            </div>
+        </div>
+
+        <!-- Trust Badges (Why Choose Us) -->
+        <div class="trust-badges-container">
+            
+            <div class="trust-item">
+                <i class="fas fa-shipping-fast"></i>
+                <h5>Free Shipping</h5>
+                <p>Enjoy free and fast delivery on all orders nationwide.</p>
+            </div>
+
+            <div class="trust-item">
+                <i class="fas fa-shield-alt"></i>
+                <h5>24 Months Warranty</h5>
+                <p>We stand behind our quality with a solid 2-year warranty.</p>
+            </div>
+
+            <div class="trust-item">
+                <i class="fas fa-medal"></i>
+                <h5>Premium Quality</h5>
+                <p>Crafted with premium materials for long-lasting luxury.</p>
+            </div>
+
+            <div class="trust-item">
+                <i class="fas fa-lock"></i>
+                <h5>Secure Payment</h5>
+                <p>100% safe and secure checkout process for your peace of mind.</p>
+            </div>
+
+        </div>
+    </section>
+    <!-- PART 4: ABOUT US & BRAND VALUES END -->
+
+    <!-- PART 5: FOOTER & CONTACT DETAILS START -->
+    <style>
+        /* Part 5 Specific CSS */
+        .footer-section {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 60px 5% 20px;
+            font-family: 'Montserrat', sans-serif;
+            border-top: 2px solid var(--gold);
+        }
+
+        /* --- Newsletter Section --- */
+        .newsletter-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .newsletter-container h3 {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .newsletter-container p {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .newsletter-form input {
+            padding: 14px 20px;
+            width: 70%;
+            border: 1px solid #333;
+            background-color: #111;
+            color: var(--white);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .newsletter-form button {
+            padding: 14px 25px;
+            background-color: var(--gold);
+            color: var(--black);
+            border: 1px solid var(--gold);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .newsletter-form button:hover {
+            background-color: transparent;
+            color: var(--gold);
+        }
+
+        /* --- Main Footer Columns --- */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer-column p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            padding-left: 5px; /* Subtle hover effect */
+        }
+
+        /* Contact Details Icons */
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .contact-info i {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+
+        /* Social Icons */
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-socials a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            background-color: #222;
+            color: var(--white);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-socials a:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+
+        /* --- Copyright Bar --- */
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+            font-size: 0.85rem;
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-form input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .newsletter-form button {
+                width: 100%;
+            }
+            .contact-info li {
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            .footer-socials {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <footer class="footer-section">
+        
+        <!-- Newsletter Signup -->
+        <div class="newsletter-container">
+            <h3>Join The Aurex Club</h3>
+            <p>Subscribe to our newsletter to receive updates on new collections, exclusive offers, and watch care tips. Get 10% off your first order!</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">SUBSCRIBE</button>
+            </form>
+        </div>
+
+        <!-- Footer Main Content -->
+        <div class="footer-grid">
+            
+            <!-- Column 1: Brand Info -->
+            <div class="footer-column">
+                <h4>AUREX WATCHES</h4>
+                <p>Redefining luxury and elegance. We provide premium quality timepieces crafted for those who value precision and style in every second.</p>
+                <div class="footer-socials">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop All Collections</a></li>
+                    <li><a href="#">Men's Watches</a></li>
+                    <li><a href="#">Women's Watches</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Customer Support -->
+            <div class="footer-column">
+                <h4>Customer Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Track Your Order</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return & Refund Policy</a></li>
+                    <li><a href="#">Warranty Information</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Contact Details -->
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <ul class="contact-info footer-links">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Aurex Luxury Store, Main Boulevard, Business District, Pakistan.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Toll Free: 1800 228 668 <br> WhatsApp: +92 300 0000000</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>support@aurexwatches.com</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            &copy; 2026 AUREX WATCHES. All Rights Reserved. Designed for Excellence.
+        </div>
+    </footer>
+    <!-- PART 5: FOOTER & CONTACT DETAILS END -->
 
 </body>
 </html>
