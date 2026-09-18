@@ -26,10 +26,13 @@
         }
 
         /* Body Background White */
-        body {
+        /* Body Background White & Overflow Fix */
+        html, body {
             background-color: var(--white);
             color: var(--black);
             overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
 
         /* --- 1. TOP ANNOUNCEMENT BAR (Seamless Infinite Marquee) --- */
@@ -247,6 +250,7 @@
         @media (max-width: 900px) {
             .desktop-nav { display: none; }
             .mobile-menu-btn { display: block; }
+            .logo img { height: 35px !important; }
             
             header {
                 justify-content: space-between;
@@ -561,11 +565,20 @@
 
         /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .slider-3d-container { height: 350px; }
-            .slide-3d { width: 220px; }
-            .slide-3d.prev { transform: translateX(-50%) scale(0.7); }
-            .slide-3d.next { transform: translateX(50%) scale(0.7); }
-            .most-popular-section h2 { font-size: 2.2rem; }
+            .slider-3d-container { height: 260px; }
+            .slide-3d { width: 140px; }
+            .slide-3d.prev { transform: translateX(-65%) scale(0.7); }
+            .slide-3d.next { transform: translateX(65%) scale(0.7); }
+            .most-popular-section h2 { font-size: 1.8rem; margin-bottom: 30px; }
+            
+            /* Title, Price aur Button ko chota aur clean kiya */
+            .watch-info-container { min-height: 120px; }
+            .watch-info-container h3 { font-size: 1.2rem; margin-bottom: 5px; }
+            .watch-info-container .price { font-size: 1.1rem; margin-bottom: 15px; }
+            .buy-now-btn { padding: 10px 25px; font-size: 12px; }
+            
+            /* Circular arrows ka size chota kiya */
+            .slider-arrows button { width: 45px; height: 45px; font-size: 1rem; }
         }
 
         /* Page load hone par Pop-up Animation */
